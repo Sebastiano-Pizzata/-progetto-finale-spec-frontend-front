@@ -38,19 +38,22 @@ const GlobalProvider = ({ children }) => {
 
     async function fetchSingleMonitor(id) {
         try {
-            const singleResponse = await fetch(`${url}/monitors/${id}`)
+            const cleanId = id.startsWith(':') ? id.slice(1) : id;
+            const singleResponse = await fetch(`${url}/monitors/${cleanId}`)
             if (!singleResponse.ok) {
                 throw new Error('Errore nel server')
             }
             const singleData = await singleResponse.json();
-            setSingleMonitor(singleData)
+            console.log(singleData)
+            setSingleMonitor(singleData.monitor)
+
 
             return singleData
 
 
         } catch (error) {
             console.error(error)
-            throw new Error
+            throw Error
         }
 
     }
