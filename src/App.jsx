@@ -3,6 +3,7 @@ import DefaultLayout from "./layout/DefaultLayout";
 import HomePage from "./pages/HomePage";
 import { GlobalProvider } from "./context/GlobalContext";
 import SingleProduct from "./pages/SingleProduct";
+import FavouritePage from "./pages/FavouritePage";
 
 export default function App() {
 
@@ -15,6 +16,7 @@ export default function App() {
             <Route Component={DefaultLayout}>
               <Route path="/" Component={HomePage} />
               <Route path="/monitors/:id" Component={SingleProduct} />
+              <Route path="/favourites" Component={FavouritePage} />
             </Route>
           </Routes>
         </BrowserRouter>
