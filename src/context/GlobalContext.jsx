@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useMemo, useState, useEffect } from "react";
 
 const GlobalContext = createContext();
 
@@ -91,7 +91,44 @@ const GlobalProvider = ({ children }) => {
             }
         })
         return filteredByCategory
-    }, [monitors, search, category, sortBy, sortOrder])
+    }, [monitors, search, category, sortBy, sortOrder]);
+
+
+    const [favourite, setFavourite] = useState([]);
+
+
+    useEffect(() => {
+        const savedFavourite = JSON.parse(localStorage.getItem('favourite'));
+        if (savedFavourite) {
+            setFavourite(savedFavourite);
+        }
+    }, []);
+
+
+    const addToFavourites = (monitor) => {
+        setFavourite(prev => {
+            const exists = prev.some(item => item.id === monitor.id);
+            if (exists) return prev;
+
+            const updated = [...prev, monitor];
+            localStorage.setItem('favourite', JSON.stringify(updated));
+            return updated;
+        });
+    };
+
+    const cleanSingleFavourite = (id) => {
+        setFavourite((prevFavourite) => {
+            const updatedFav = prevFavourite.filter(i => i.id !== id);
+            localStorage.setItem('favourite', JSON.stringify(updatedFav))
+            return updatedFav
+        })
+    }
+
+    const cleanFavourites = () => {
+        setFavourite([])
+        localStorage.removeItem('favourite')
+    }
+
 
     const value = {
         monitors,
@@ -104,7 +141,11 @@ const GlobalProvider = ({ children }) => {
         sortOrder,
         setSortOrder,
         handleSort,
-        sortedAndFilteredMonitors
+        sortedAndFilteredMonitors,
+        favourite,
+        addToFavourites,
+        cleanFavourites,
+        cleanSingleFavourite
     }
 
     return (
