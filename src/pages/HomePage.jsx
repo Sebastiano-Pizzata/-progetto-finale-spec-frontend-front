@@ -3,6 +3,7 @@ import { useGlobalContext } from "../context/GlobalContext";
 import Hero from "../components/Hero";
 import MonitorsCard from "../components/MonitorsCard";
 
+
 export default function HomePage() {
     const { fetchMonitors, handleSort, setCategory, sortedAndFilteredMonitors } = useGlobalContext();
 

@@ -1,23 +1,22 @@
-import { createContext, useContext, useMemo, useState, useEffect } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
 
 const GlobalContext = createContext();
 
 const GlobalProvider = ({ children }) => {
-
     const url = import.meta.env.VITE_ENDPOINT_URL;
 
     const [monitors, setMonitors] = useState([]);
+    const [singleMonitor, setSingleMonitor] = useState();
 
-    const [singleMonitor, setSingleMonitor] = useState()
+    const [search, setSearch] = useState('');
+    const [sortBy, setSortBy] = useState('');
+    const [sortOrder, setSortOrder] = useState(1);
+    const [category, setCategory] = useState('');
 
-    const [search, setSearch] = useState('')
+    const [favourite, setFavourite] = useState([]);
 
-    const [sortBy, setSortBy] = useState('')
-
-    const [sortOrder, setSortOrder] = useState(1)
-
-    const [category, setCategory] = useState('')
-
+    const [compare, setCompare] = useState('');
+    const [compare1, setCompare1] = useState('');
 
     async function fetchMonitors() {
         try {
@@ -27,9 +26,7 @@ const GlobalProvider = ({ children }) => {
             }
             const data = await response.json();
             setMonitors(data)
-
             return data
-
         } catch (error) {
             console.error(error)
             throw new Error
@@ -38,26 +35,19 @@ const GlobalProvider = ({ children }) => {
 
     async function fetchSingleMonitor(id) {
         try {
-            const cleanId = id.startsWith(':') ? id.slice(1) : id;
-            const singleResponse = await fetch(`${url}/monitors/${cleanId}`)
+            const cleanId = id.toString().startsWith(':') ? id.toString().slice(1) : id.toString();
+            const singleResponse = await fetch(`${url}/monitors/${cleanId}`);
             if (!singleResponse.ok) {
-                throw new Error('Errore nel server')
+                throw new Error('Errore nel server');
             }
             const singleData = await singleResponse.json();
-            console.log(singleData)
-            setSingleMonitor(singleData.monitor)
-
-
-            return singleData
-
-
+            setSingleMonitor(singleData.monitor);
+            return singleData.monitor;
         } catch (error) {
-            console.error(error)
-            throw Error
+            console.error(error);
+            throw error;
         }
-
     }
-
 
     const handleSort = (value) => {
         if (value === 'title_asc') {
@@ -73,29 +63,12 @@ const GlobalProvider = ({ children }) => {
     };
 
     const sortedAndFilteredMonitors = useMemo(() => {
-        const copy = [...monitors]
-        const filteredCopy = copy.filter(m => m.title.toLowerCase().includes(search.toLowerCase()))
-        const filteredByCategory = filteredCopy.filter(f => {
-            if (category === '') {
-                return true
-            }
-            return f.category === category
-        });
-
-        filteredByCategory.sort((a, b) => {
-            if (sortBy === 'title') {
-                return a.title.localeCompare(b.title) * sortOrder
-            }
-            else {
-                return 0
-            }
-        })
-        return filteredByCategory
+        let filtered = [...monitors];
+        filtered = filtered.filter(m => m.title.toLowerCase().includes(search.toLowerCase()));
+        if (category) filtered = filtered.filter(m => m.category === category);
+        if (sortBy === 'title') filtered.sort((a, b) => a.title.localeCompare(b.title) * sortOrder);
+        return filtered;
     }, [monitors, search, category, sortBy, sortOrder]);
-
-
-    const [favourite, setFavourite] = useState([]);
-
 
     useEffect(() => {
         const savedFavourite = JSON.parse(localStorage.getItem('favourite'));
@@ -104,12 +77,9 @@ const GlobalProvider = ({ children }) => {
         }
     }, []);
 
-
     const addToFavourites = (monitor) => {
         setFavourite(prev => {
-            const exists = prev.some(item => item.id === monitor.id);
-            if (exists) return prev;
-
+            if (prev.some(item => item.id === monitor.id)) return prev;
             const updated = [...prev, monitor];
             localStorage.setItem('favourite', JSON.stringify(updated));
             return updated;
@@ -117,47 +87,80 @@ const GlobalProvider = ({ children }) => {
     };
 
     const cleanSingleFavourite = (id) => {
-        setFavourite((prevFavourite) => {
-            const updatedFav = prevFavourite.filter(i => i.id !== id);
-            localStorage.setItem('favourite', JSON.stringify(updatedFav))
-            return updatedFav
-        })
-    }
+        setFavourite(prev => {
+            const updated = prev.filter(m => m.id !== id);
+            localStorage.setItem('favourite', JSON.stringify(updated));
+            return updated;
+        });
+    };
 
     const cleanFavourites = () => {
-        setFavourite([])
-        localStorage.removeItem('favourite')
-    }
+        setFavourite([]);
+        localStorage.removeItem('favourite');
+    };
 
 
-    const value = {
-        monitors,
-        fetchMonitors,
-        singleMonitor,
-        fetchSingleMonitor,
-        search,
-        setSearch,
-        setCategory,
-        sortOrder,
-        setSortOrder,
-        handleSort,
-        sortedAndFilteredMonitors,
-        favourite,
-        addToFavourites,
-        cleanFavourites,
-        cleanSingleFavourite
-    }
+    const filteredProducts = useMemo(() => {
+        if (!compare && !compare1) {
+            return monitors;
+        }
+        return monitors.filter(m => {
+            const title = m.title.toLowerCase();
+            return (
+                (compare && title.includes(compare.toLowerCase())) ||
+                (compare1 && title.includes(compare1.toLowerCase()))
+            );
+        });
+    }, [compare, compare1, monitors]);
+
+    const [monitorsToCompare, setMonitorsToCompare] = useState([]);
+
+    const addToCompare = async (monitor) => {
+        const fullMonitor = await fetchSingleMonitor(monitor.id);
+        setMonitorsToCompare(prev => {
+            if (prev.some(m => m.id === fullMonitor.id)) return prev;
+            return [...prev, fullMonitor];
+        });
+    };
+
+    const removeFromCompare = (id) => {
+        setMonitorsToCompare(prev => prev.filter(m => m.id !== id));
+    };
+
 
     return (
-        <GlobalContext.Provider value={value}>
+        <GlobalContext.Provider value={{
+            monitors,
+            fetchMonitors,
+            fetchSingleMonitor,
+            sortedAndFilteredMonitors,
+            search,
+            setSearch,
+            category,
+            setCategory,
+            handleSort,
+            sortOrder,
+            setSortOrder,
+            favourite,
+            addToFavourites,
+            cleanFavourites,
+            cleanSingleFavourite,
+            compare,
+            setCompare,
+            compare1,
+            setCompare1,
+            filteredProducts,
+            singleMonitor,
+            setSingleMonitor,
+            addToCompare,
+            removeFromCompare,
+            monitorsToCompare
+        }}>
             {children}
         </GlobalContext.Provider>
-    )
-}
+    );
+};
 
 const useGlobalContext = () => useContext(GlobalContext);
 
-export {
-    GlobalProvider,
-    useGlobalContext
-}
+export { GlobalProvider, useGlobalContext };
