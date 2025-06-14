@@ -46,3 +46,10 @@ body {
     border: none;
     box-shadow: none;
 }
+
+
+.modal-img {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}

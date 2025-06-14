@@ -1,3 +1,5 @@
+import '../style/style.css'
+
 export default function ModalCard({ modal }) {
     const { title,
         category,
@@ -17,9 +19,9 @@ export default function ModalCard({ modal }) {
 
     return (
         <>
-            <div className="card mt-4 shadow-sm border-0 card-hover">
-                <figure className="m-0">
-                    <img src={image} alt={title} className="card-img-top" />
+            <div className="card mt-4 shadow-sm border-0 card-hover" >
+                <figure className="m-2">
+                    <img src={image} alt={title} className="card-img-top modal-img" />
                 </figure>
                 <div className="card-body bg-light">
                     <h3 className="card-title fw-bold ">{title}</h3>
@@ -59,7 +61,7 @@ export default function ModalCard({ modal }) {
                         <span>Prezzo:</span><span className="fw-bold">{price}</span>
                     </li>
                 </ul>
-            </div>
+            </div >
 
         </>
     )

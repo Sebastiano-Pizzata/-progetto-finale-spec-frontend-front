@@ -1,5 +1,6 @@
 export default function SingleMonitorCard({ singleCard }) {
-    const { title,
+    const {
+        title,
         category,
         brand,
         resolution,

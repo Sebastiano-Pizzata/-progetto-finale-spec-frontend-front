@@ -83,7 +83,7 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                         ) : (
                             <div className="row gap-3">
                                 {monitorsToCompare.map((monitor) => (
-                                    <div key={monitor.id} className="col-md-4 col-lg-3">
+                                    <div key={monitor.id} className="col-md-5 col-lg-4">
                                         <ModalCard modal={monitor} />
                                         <button
                                             className="btn btn-danger mt-2"
@@ -91,6 +91,7 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                                         >
                                             Rimuovi dal confronto
                                         </button>
+
                                     </div>
                                 ))}
                             </div>
