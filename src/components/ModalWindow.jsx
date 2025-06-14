@@ -7,16 +7,12 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
     const {
         compare,
         setCompare,
-        compare1,
-        setCompare1,
         filteredProducts,
         monitorsToCompare,
         addToCompare,
         removeFromCompare
     } = useGlobalContext();
 
-
-    console.log(filteredProducts)
 
     return (
         <Modal
@@ -39,15 +35,6 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                                 placeholder="Cerca Prodotto da confrontare"
                                 value={compare}
                                 onChange={(e) => setCompare(e.target.value)}
-                            />
-                        </div>
-                        <div className="input-group input-group-lg shadow rounded-pill w-50">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Cerca Prodotto da confrontare"
-                                value={compare1}
-                                onChange={(e) => setCompare1(e.target.value)}
                             />
                         </div>
                     </div>

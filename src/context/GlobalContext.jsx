@@ -16,7 +16,6 @@ const GlobalProvider = ({ children }) => {
     const [favourite, setFavourite] = useState([]);
 
     const [compare, setCompare] = useState('');
-    const [compare1, setCompare1] = useState('');
 
     async function fetchMonitors() {
         try {
@@ -101,17 +100,16 @@ const GlobalProvider = ({ children }) => {
 
 
     const filteredProducts = useMemo(() => {
-        if (!compare && !compare1) {
+        if (!compare) {
             return monitors;
         }
         return monitors.filter(m => {
             const title = m.title.toLowerCase();
             return (
-                (compare && title.includes(compare.toLowerCase())) ||
-                (compare1 && title.includes(compare1.toLowerCase()))
+                (compare && title.includes(compare.toLowerCase()))
             );
         });
-    }, [compare, compare1, monitors]);
+    }, [compare, monitors]);
 
     const [monitorsToCompare, setMonitorsToCompare] = useState([]);
 
@@ -147,8 +145,6 @@ const GlobalProvider = ({ children }) => {
             cleanSingleFavourite,
             compare,
             setCompare,
-            compare1,
-            setCompare1,
             filteredProducts,
             singleMonitor,
             setSingleMonitor,

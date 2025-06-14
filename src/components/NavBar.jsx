@@ -15,7 +15,7 @@ export default function NavBar() {
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
                 <div className="container-fluid d-flex justify-content-between">
                     <NavLink className="navbar-brand text-white d-flex align-items-center gap-1" to="/">
-                        <MdMonitor size={40} />Home
+                        <MdMonitor size={30} />Home
                     </NavLink>
                     <div className="d-flex gap-4 align-items-center">
                         <button
