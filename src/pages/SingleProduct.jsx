@@ -6,7 +6,8 @@ import SingleMonitorCard from "../components/SingleMonitorCard";
 export default function SingleProduct() {
     const { id } = useParams();
 
-    const { singleMonitor,
+    const {
+        singleMonitor,
         fetchSingleMonitor,
         addToFavourites } = useGlobalContext();
 

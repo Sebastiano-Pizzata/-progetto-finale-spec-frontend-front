@@ -50,7 +50,7 @@ export default function FavouritePage() {
                         </div>
                     </>
                 ) : (
-                    <div className="alert alert-info text-center" role="alert">
+                    <div className="alert alert-info text-center fs-5">
                         Nessun preferito salvato.
                     </div>
                 )}

@@ -18,8 +18,6 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
 
     console.log(filteredProducts)
 
-    console.log
-
     return (
         <Modal
             show={show}
@@ -42,7 +40,6 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                                 value={compare}
                                 onChange={(e) => setCompare(e.target.value)}
                             />
-                            <button className="btn btn-warning fw-bold">Confronta</button>
                         </div>
                         <div className="input-group input-group-lg shadow rounded-pill w-50">
                             <input
@@ -52,7 +49,6 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                                 value={compare1}
                                 onChange={(e) => setCompare1(e.target.value)}
                             />
-                            <button className="btn btn-warning fw-bold">Confronta</button>
                         </div>
                     </div>
                 </section>
@@ -87,7 +83,7 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                         ) : (
                             <div className="row gap-3">
                                 {monitorsToCompare.map((monitor) => (
-                                    <div key={monitor.id} className="col-md-6 col-lg-4">
+                                    <div key={monitor.id} className="col-md-4 col-lg-3">
                                         <ModalCard modal={monitor} />
                                         <button
                                             className="btn btn-danger mt-2"

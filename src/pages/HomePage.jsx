@@ -49,7 +49,7 @@ export default function HomePage() {
                 <div className="row gap-2">
                     {
                         sortedAndFilteredMonitors.length <= 0 ? (
-                            <p>Nessun risultato trovato</p>
+                            <p className="alert alert-info text-center fs-5">Nessun risultato trovato</p>
                         ) : (
                             sortedAndFilteredMonitors.map(m => {
                                 return <MonitorsCard key={m.id} card={m} />
