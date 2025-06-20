@@ -1,7 +1,8 @@
 import '../style/style.css'
 
 export default function ModalCard({ modal }) {
-    const { title,
+    const {
+        title,
         category,
         brand,
         resolution,
@@ -49,7 +50,10 @@ export default function ModalCard({ modal }) {
                         <span>Display:</span><span className="fw-bold">{hdr}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                        <span>Porte:</span><span className="fw-bold">{ports}</span>
+                        <span>Porte:</span>
+                        <span className="fw-bold">
+                            {ports.join(', ')}
+                        </span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
                         <span>Pannello:</span><span className="fw-bold">{panel}</span>

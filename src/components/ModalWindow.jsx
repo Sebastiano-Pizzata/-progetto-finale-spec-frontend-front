@@ -42,7 +42,7 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
 
                 <section>
                     <div className="container">
-                        <h5>Prodotti trovati (clicca per aggiungere al confronto):</h5>
+                        <h5>Prodotti trovati:</h5>
                         <div className="row gap-2">
                             {filteredProducts.length === 0 ? (
                                 <p>Nessun risultato trovato</p>
