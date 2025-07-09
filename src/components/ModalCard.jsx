@@ -20,7 +20,7 @@ export default function ModalCard({ modal }) {
 
     return (
         <>
-            <div className="card mt-4 shadow-sm border-0 card-hover" >
+            <div className="card mt-4 shadow-sm border-0 card-hover h-100 d-flex flex-column">
                 <figure className="m-2">
                     <img src={image} alt={title} className="card-img-top modal-img" />
                 </figure>
@@ -62,7 +62,7 @@ export default function ModalCard({ modal }) {
                         <span>Sync:</span><span className="fw-bold">{sync}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                        <span>Prezzo:</span><span className="fw-bold">{price}</span>
+                        <span>Prezzo:</span><span className="fw-bold">{price}€</span>
                     </li>
                 </ul>
             </div >

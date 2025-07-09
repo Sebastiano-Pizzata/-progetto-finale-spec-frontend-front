@@ -25,7 +25,7 @@ export default function NavBar() {
                         </button>
                         <NavLink className="nav-link text-white" to="/favourites">
                             <CiHeart size={30} />
-                            <span className={`cart-icon-total ${favourite?.length === 0 && 'd-none'}`}>
+                            <span className={`heart-icon-total ${favourite?.length === 0 && 'd-none'}`}>
                                 {favourite?.length}
                             </span>
                         </NavLink>

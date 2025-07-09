@@ -2,6 +2,7 @@ import Modal from 'react-bootstrap/Modal';
 import '../style/style.css';
 import { useGlobalContext } from '../context/GlobalContext';
 import ModalCard from './ModalCard';
+import { useCallback } from 'react';
 
 function ModalWindow({ show, fullscreen = true, onClose }) {
     const {
@@ -10,8 +11,13 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
         filteredProducts,
         monitorsToCompare,
         addToCompare,
-        removeFromCompare
+        removeFromCompare,
+        debounce
     } = useGlobalContext();
+
+    const debounceCompareSearch = useCallback(
+        debounce(setCompare, 1000),
+        [])
 
 
     return (
@@ -33,8 +39,7 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                                 type="text"
                                 className="form-control"
                                 placeholder="Cerca Prodotto da confrontare"
-                                value={compare}
-                                onChange={(e) => setCompare(e.target.value)}
+                                onChange={(e) => debounceCompareSearch(e.target.value)}
                             />
                         </div>
                     </div>
@@ -68,9 +73,9 @@ function ModalWindow({ show, fullscreen = true, onClose }) {
                         {monitorsToCompare.length === 0 ? (
                             <p>Nessun monitor selezionato</p>
                         ) : (
-                            <div className="row gap-3">
+                            <div className="row gap-3 align-items-stretch">
                                 {monitorsToCompare.map((monitor) => (
-                                    <div key={monitor.id} className="col-md-5 col-lg-4">
+                                    <div key={monitor.id} className="col-md-5 col-lg-4 d-flex flex-column">
                                         <ModalCard modal={monitor} />
                                         <button
                                             className="btn btn-danger mt-2"

@@ -44,7 +44,7 @@ const GlobalProvider = ({ children }) => {
             return singleData.monitor;
         } catch (error) {
             console.error(error);
-            throw error;
+            throw new error;
         }
     }
 
@@ -57,7 +57,7 @@ const GlobalProvider = ({ children }) => {
             setSortOrder(-1);
         } else {
             setSortBy('');
-            setSortOrder(1);
+            setSortOrder(0);
         }
     };
 
@@ -125,6 +125,16 @@ const GlobalProvider = ({ children }) => {
         setMonitorsToCompare(prev => prev.filter(m => m.id !== id));
     };
 
+    function debounce(callback, delay) {
+        let timer;
+        return (value) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                callback(value)
+            }, delay)
+        }
+    }
+
 
     return (
         <GlobalContext.Provider value={{
@@ -150,7 +160,8 @@ const GlobalProvider = ({ children }) => {
             setSingleMonitor,
             addToCompare,
             removeFromCompare,
-            monitorsToCompare
+            monitorsToCompare,
+            debounce
         }}>
             {children}
         </GlobalContext.Provider>

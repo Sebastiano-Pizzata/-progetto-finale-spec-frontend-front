@@ -57,7 +57,7 @@ export default function SingleMonitorCard({ singleCard }) {
                         <span>Sync:</span><span className="fw-bold">{sync}</span>
                     </li>
                     <li className="list-group-item d-flex justify-content-between">
-                        <span>Prezzo:</span><span className="fw-bold">{price}</span>
+                        <span>Prezzo:</span><span className="fw-bold">{price}€</span>
                     </li>
                 </ul>
             </div>

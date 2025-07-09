@@ -5,7 +5,13 @@ import MonitorsCard from "../components/MonitorsCard";
 
 
 export default function HomePage() {
-    const { fetchMonitors, handleSort, setCategory, sortedAndFilteredMonitors } = useGlobalContext();
+    const {
+        fetchMonitors,
+        handleSort,
+        setCategory,
+        sortedAndFilteredMonitors,
+        addToCompare,
+    } = useGlobalContext();
 
 
     useEffect(() => {
@@ -52,7 +58,24 @@ export default function HomePage() {
                             <p className="alert alert-info text-center fs-5">Nessun risultato trovato</p>
                         ) : (
                             sortedAndFilteredMonitors.map(m => {
-                                return <MonitorsCard key={m.id} card={m} />
+                                return <>
+                                    {/* <MonitorsCard key={m.id} card={m} /> */}
+                                    <div key={m.id} className="col-12">
+                                        <div className="d-flex align-items-center gap-3 p-3 rounded">
+                                            <div className="flex-grow-1">
+                                                <MonitorsCard card={m} />
+                                            </div>
+                                            <div style={{ minWidth: "150px" }}>
+                                                <button
+                                                    onClick={() => addToCompare(m)}
+                                                    className="btn btn-outline-primary w-100">
+                                                    Confronta
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </>
                             })
                         )
                     }
